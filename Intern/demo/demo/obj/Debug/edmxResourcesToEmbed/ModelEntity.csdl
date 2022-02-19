@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="tktapidevModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Card">
+    <Key>
+      <PropertyRef Name="LicenseKey" />
+    </Key>
+    <Property Name="LicenseKey" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ValidFrom" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ValidTo" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="HDDSerialNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ProcessorID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="RegisterDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Users" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ContactEmail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ContactPhone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ProductName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ProductVersion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ComputerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PublicIPAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="MacAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Customer_CustomerId" Type="Int32" />
+    <Property Name="TotalInvoice" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="TotalInvoiceClient" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ExpireDays" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Customer" Relationship="Self.FK_dbo_Cards_dbo_Customers_Customer_CustomerId" FromRole="Cards" ToRole="Customers" />
+  </EntityType>
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="CustomerId" />
+    </Key>
+    <Property Name="CustomerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CompanyName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="TaxCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ContractNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ValidFrom" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ValidTo" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="TotalClients" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ProductName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ProductVersion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="GUID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="TotalInvoice" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Cards" Relationship="Self.FK_dbo_Cards_dbo_Customers_Customer_CustomerId" FromRole="Customers" ToRole="Cards" />
+  </EntityType>
+  <Association Name="FK_dbo_Cards_dbo_Customers_Customer_CustomerId">
+    <End Role="Customers" Type="Self.Customer" Multiplicity="0..1" />
+    <End Role="Cards" Type="Self.Card" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customers">
+        <PropertyRef Name="CustomerId" />
+      </Principal>
+      <Dependent Role="Cards">
+        <PropertyRef Name="Customer_CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="tktapidevEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Cards" EntityType="Self.Card" />
+    <EntitySet Name="Customers" EntityType="Self.Customer" />
+    <AssociationSet Name="FK_dbo_Cards_dbo_Customers_Customer_CustomerId" Association="Self.FK_dbo_Cards_dbo_Customers_Customer_CustomerId">
+      <End Role="Customers" EntitySet="Customers" />
+      <End Role="Cards" EntitySet="Cards" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

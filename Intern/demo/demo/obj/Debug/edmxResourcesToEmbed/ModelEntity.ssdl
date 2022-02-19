@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="tktapidevModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Cards">
+    <Key>
+      <PropertyRef Name="LicenseKey" />
+    </Key>
+    <Property Name="LicenseKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="CreatedBy" Type="nvarchar(max)" />
+    <Property Name="ValidFrom" Type="datetime" Nullable="false" />
+    <Property Name="ValidTo" Type="datetime" Nullable="false" />
+    <Property Name="Note" Type="nvarchar(max)" />
+    <Property Name="Status" Type="nvarchar(max)" />
+    <Property Name="HDDSerialNumber" Type="nvarchar(max)" />
+    <Property Name="ProcessorID" Type="nvarchar(max)" />
+    <Property Name="RegisterDate" Type="datetime" Nullable="false" />
+    <Property Name="Users" Type="nvarchar(max)" />
+    <Property Name="ContactEmail" Type="nvarchar(max)" />
+    <Property Name="ContactPhone" Type="nvarchar(max)" />
+    <Property Name="ProductName" Type="nvarchar(max)" />
+    <Property Name="ProductVersion" Type="nvarchar(max)" />
+    <Property Name="ComputerName" Type="nvarchar(max)" />
+    <Property Name="PublicIPAddress" Type="nvarchar(max)" />
+    <Property Name="MacAddress" Type="nvarchar(max)" />
+    <Property Name="Customer_CustomerId" Type="int" />
+    <Property Name="TotalInvoice" Type="nvarchar(max)" />
+    <Property Name="TotalInvoiceClient" Type="nvarchar(max)" />
+    <Property Name="ExpireDays" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Customers">
+    <Key>
+      <PropertyRef Name="CustomerId" />
+    </Key>
+    <Property Name="CustomerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CompanyName" Type="nvarchar(max)" />
+    <Property Name="Address" Type="nvarchar(max)" />
+    <Property Name="TaxCode" Type="nvarchar(max)" />
+    <Property Name="ContractNumber" Type="nvarchar(max)" />
+    <Property Name="ValidFrom" Type="datetime" Nullable="false" />
+    <Property Name="ValidTo" Type="datetime" Nullable="false" />
+    <Property Name="TotalClients" Type="nvarchar(max)" />
+    <Property Name="ProductName" Type="nvarchar(max)" />
+    <Property Name="ProductVersion" Type="nvarchar(max)" />
+    <Property Name="GUID" Type="nvarchar(max)" />
+    <Property Name="TotalInvoice" Type="nvarchar(max)" />
+  </EntityType>
+  <Association Name="FK_dbo_Cards_dbo_Customers_Customer_CustomerId">
+    <End Role="Customers" Type="Self.Customers" Multiplicity="0..1" />
+    <End Role="Cards" Type="Self.Cards" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customers">
+        <PropertyRef Name="CustomerId" />
+      </Principal>
+      <Dependent Role="Cards">
+        <PropertyRef Name="Customer_CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="tktapidevModelStoreContainer">
+    <EntitySet Name="Cards" EntityType="Self.Cards" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_dbo_Cards_dbo_Customers_Customer_CustomerId" Association="Self.FK_dbo_Cards_dbo_Customers_Customer_CustomerId">
+      <End Role="Customers" EntitySet="Customers" />
+      <End Role="Cards" EntitySet="Cards" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
